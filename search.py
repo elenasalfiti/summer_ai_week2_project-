@@ -89,7 +89,8 @@ def depthFirstSearch(problem: SearchProblem):
     frontier_s = util.Stack()
     visited = []
     start_node = problem.getStartState()
-    frontier_s.push((start_node, []))
+    frontier_s.push((start_node, [], 0))
+    goal_found = False
 
     while not frontier_s.isEmpty():
         current_node, actions = frontier_s.pop()
@@ -97,9 +98,9 @@ def depthFirstSearch(problem: SearchProblem):
             visited.append(current_node)
             if problem.isGoalState(current_node):
                 return actions
-            for successor, action, cose in problem.getSuccessors(current_node):
-                successor_action = actions + [action]
-                frontier_s.push(successor, successor_action)
+            for successor, action, cost in problem.getSuccessors(current_node):
+                if(not(successor in visited)):
+                    frontier_s.push(successor, action, cost)
 
 
     util.raiseNotDefined()
@@ -109,7 +110,7 @@ def breadthFirstSearch(problem: SearchProblem):
     frontier_q = util.Queue()
     visited = []
     start_node = problem.getStartState()
-    frontier_q.push((start_node, []))
+    frontier_q.push((start_node, [], 0))
 
     while not frontier_q.isEmpty():
         current_node, actions = frontier_q.pop()
@@ -117,9 +118,9 @@ def breadthFirstSearch(problem: SearchProblem):
             visited.append(current_node)
             if problem.isGoalState(current_node):
                 return actions
-            for successor, action, cose in problem.getSuccessors(current_node):
-                successor_action = actions + [action]
-                frontier_q.push(successor, successor_action)
+            for successor, action, cost in problem.getSuccessors(current_node):
+                if(not(successor in visited)):
+                    frontier_q.push(successor, action, cost)
                 
     util.raiseNotDefined()
 
